@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  # База для сервиса кошельков
+  wallet-db:
+    image: postgres:16
+    container_name: mc-wallet-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: wallet_db
+    ports:
+      - "5432:5432" # Оставляем стандартный порт
+    volumes:
+      - wallet_data:/var/lib/postgresql/data
+
+  # База для сервиса истории транзакций
+  history-db:
+    image: postgres:16
+    container_name: mc-history-postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: history_db
+    ports:
+      - "5433:5432" # Внутри 5432, но снаружи (для Windows) будет 5433
+    volumes:
+      - history_data:/var/lib/postgresql/data
+
+volumes:
+  wallet_data:
+  history_data:
